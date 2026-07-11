@@ -167,28 +167,22 @@ function sanitizeSlug(slug: string): string {
 export async function fetchPostBySlug(slug: string): Promise<WPPost | null> {
   try {
     const sanitizedSlug = sanitizeSlug(slug);
-    console.log('[fetchPostBySlug] input slug:', slug);
-    console.log('[fetchPostBySlug] sanitized slug:', sanitizedSlug);
     const response = await fetch(
       `${WP_API_URL}/posts?slug=${sanitizedSlug}&_embed=wp:featuredmedia`,
       { next: { revalidate: 60 } }
     );
-    console.log('[fetchPostBySlug] response status:', response.status);
 
     if (!response.ok) {
       throw new Error("Failed to fetch post");
     }
 
     const apiPosts: WPApiPost[] = await response.json();
-    console.log('[fetchPostBySlug] apiPosts count:', apiPosts.length);
 
     if (apiPosts.length === 0) {
       return null;
     }
 
-    const post = transformPost(apiPosts[0]);
-    console.log('[fetchPostBySlug] post.category.slug:', post.category.slug);
-    return post;
+    return transformPost(apiPosts[0]);
   } catch (error) {
     console.error("Error fetching post by slug:", error);
     return null;

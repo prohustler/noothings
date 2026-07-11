@@ -55,25 +55,19 @@ function addIdsToHeadings(html: string): string {
 
 export default async function PostPage({ params }: PageProps) {
   const { category, slug } = await params;
-  console.log('[PostPage] raw params - category:', category, 'slug:', slug);
-
   const decodedSlug = decodeURIComponent(slug);
   const decodedCategory = decodeURIComponent(category);
-  console.log('[PostPage] decoded - category:', decodedCategory, 'slug:', decodedSlug);
 
   const post = await fetchPostBySlug(decodedSlug);
 
   if (!post) {
-    console.log('[PostPage] post not found for slug:', decodedSlug);
     notFound();
   }
 
-  console.log('[PostPage] post found:', post.id, 'category:', post.category.slug, 'expected:', decodedCategory);
-
-  // 카테고리 확인 (임시로 비활성화)
-  // if (post.category.slug !== decodedCategory) {
-  //   notFound();
-  // }
+  // 카테고리 확인
+  if (post.category.slug !== decodedCategory) {
+    notFound();
+  }
 
   const relatedPosts = await fetchRelatedPosts(decodedCategory, decodedSlug, 3);
 
