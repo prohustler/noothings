@@ -150,11 +150,18 @@ export async function fetchPostsByCategory(categorySlug: string, limit: number =
   }
 }
 
+// slug를 WordPress sanitize_title 형식으로 변환 (소문자 URL 인코딩)
+function sanitizeSlug(slug: string): string {
+  // 한글 등 비-ASCII 문자를 소문자 URL 인코딩으로 변환
+  return encodeURIComponent(slug).toLowerCase();
+}
+
 // 단일 포스트 가져오기 (slug로)
 export async function fetchPostBySlug(slug: string): Promise<WPPost | null> {
   try {
+    const sanitizedSlug = sanitizeSlug(slug);
     const response = await fetch(
-      `${WP_API_URL}/posts?slug=${encodeURIComponent(slug)}&_embed=wp:featuredmedia`,
+      `${WP_API_URL}/posts?slug=${sanitizedSlug}&_embed=wp:featuredmedia`,
       { next: { revalidate: 60 } }
     );
 
