@@ -55,8 +55,11 @@ function addIdsToHeadings(html: string): string {
 
 export default async function PostPage({ params }: PageProps) {
   const { category, slug } = await params;
+  console.log('[PostPage] raw params - category:', category, 'slug:', slug);
+
   const decodedSlug = decodeURIComponent(slug);
   const decodedCategory = decodeURIComponent(category);
+  console.log('[PostPage] decoded - category:', decodedCategory, 'slug:', decodedSlug);
 
   const post = await fetchPostBySlug(decodedSlug);
 
