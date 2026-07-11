@@ -28,7 +28,7 @@ export const categories: WPCategory[] = [
   { name: "꿀팁", slug: "tips", icon: "💡", color: "#FF6400" },
 ];
 
-const WP_API_URL = "https://noothings.kr/wp-json/wp/v2";
+const WP_API_URL = "https://wp.noothings.kr/wp-json/wp/v2";
 
 // 카테고리 ID 매핑 (WordPress term_id)
 const categoryIdMap: Record<number, { name: string; slug: string }> = {
