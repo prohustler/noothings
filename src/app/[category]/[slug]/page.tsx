@@ -61,13 +61,16 @@ export default async function PostPage({ params }: PageProps) {
   const post = await fetchPostBySlug(decodedSlug);
 
   if (!post) {
+    console.log('[PostPage] post not found for slug:', decodedSlug);
     notFound();
   }
 
-  // 카테고리 확인
-  if (post.category.slug !== decodedCategory) {
-    notFound();
-  }
+  console.log('[PostPage] post found:', post.id, 'category:', post.category.slug, 'expected:', decodedCategory);
+
+  // 카테고리 확인 (임시로 비활성화)
+  // if (post.category.slug !== decodedCategory) {
+  //   notFound();
+  // }
 
   const relatedPosts = await fetchRelatedPosts(decodedCategory, decodedSlug, 3);
 
