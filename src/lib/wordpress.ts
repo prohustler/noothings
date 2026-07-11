@@ -152,8 +152,15 @@ export async function fetchPostsByCategory(categorySlug: string, limit: number =
 
 // slug를 WordPress sanitize_title 형식으로 변환 (소문자 URL 인코딩)
 function sanitizeSlug(slug: string): string {
+  // 이미 URL 인코딩된 경우 먼저 디코딩
+  let decoded = slug;
+  try {
+    decoded = decodeURIComponent(slug);
+  } catch {
+    // 디코딩 실패 시 그대로 사용
+  }
   // 한글 등 비-ASCII 문자를 소문자 URL 인코딩으로 변환
-  return encodeURIComponent(slug).toLowerCase();
+  return encodeURIComponent(decoded).toLowerCase();
 }
 
 // 단일 포스트 가져오기 (slug로)
