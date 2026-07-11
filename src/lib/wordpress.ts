@@ -106,7 +106,7 @@ export async function fetchPosts(limit: number = 10): Promise<WPPost[]> {
   try {
     const response = await fetch(
       `${WP_API_URL}/posts?per_page=${limit}&_embed=wp:featuredmedia`,
-      { next: { revalidate: 60 }, cache: 'force-cache' }
+      { next: { revalidate: 60 } }
     );
 
     if (!response.ok) {
@@ -135,7 +135,7 @@ export async function fetchPostsByCategory(categorySlug: string, limit: number =
 
     const response = await fetch(
       `${WP_API_URL}/posts?categories=${categoryId}&per_page=${limit}&_embed=wp:featuredmedia`,
-      { next: { revalidate: 60 }, cache: 'force-cache' }
+      { next: { revalidate: 60 } }
     );
 
     if (!response.ok) {
@@ -155,7 +155,7 @@ export async function fetchPostBySlug(slug: string): Promise<WPPost | null> {
   try {
     const response = await fetch(
       `${WP_API_URL}/posts?slug=${encodeURIComponent(slug)}&_embed=wp:featuredmedia`,
-      { next: { revalidate: 60 }, cache: 'force-cache' }
+      { next: { revalidate: 60 } }
     );
 
     if (!response.ok) {
@@ -188,7 +188,7 @@ export async function fetchRelatedPosts(categorySlug: string, currentSlug: strin
 
     const response = await fetch(
       `${WP_API_URL}/posts?categories=${categoryId}&per_page=${limit + 1}&_embed=wp:featuredmedia`,
-      { next: { revalidate: 60 }, cache: 'force-cache' }
+      { next: { revalidate: 60 } }
     );
 
     if (!response.ok) {
