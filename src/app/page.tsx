@@ -2,6 +2,10 @@ import Link from "next/link";
 import { fetchPosts, categories } from "@/lib/wordpress";
 import HomeClient from "@/components/HomeClient";
 
+// 정적 생성 + ISR (60초마다 재생성)
+export const revalidate = 60;
+export const dynamic = 'force-static';
+
 export default async function Home() {
   const posts = await fetchPosts(10);
   const trendingPosts = posts.slice(0, 4);
